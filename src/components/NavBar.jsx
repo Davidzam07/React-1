@@ -1,25 +1,32 @@
-import { CartWidget } from "./CartWidget";
+import { CartWidget } from "./cartwidget.jsx";
+import { Link } from "react-router-dom";
+import "../App.css";
+
 export const NavBar = () => {
 return (
-<>
     <nav className="navbar">
-    <h1 className="logo">AURA</h1>
-    <ul className="nav-links">
+    <h1 className="logo">AURAX</h1>
+<ul className="nav-links">
     <li>
-        <a href="#">Inicio</a>
+        <Link to="/">Inicio</Link>
     </li>
     <li>
-        <a href="#">Productos</a>
+        <Link to="/category/ropa">Ropa</Link>
     </li>
     <li>
-        <a href="#">Contacto</a>
+        <Link to="/category/calzado">Calzado</Link>
     </li>
-    </ul>
+    <li>
+        <Link to="/category/accesorios">Accesorios</Link>
+    </li>
+    <li>
+        <Link to="/contacto">Contacto</Link> 
+    </li>
+</ul>
     <CartWidget />
     </nav>
-    
-</>
 );
 };
+
 
 
