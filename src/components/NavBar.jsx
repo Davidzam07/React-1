@@ -1,4 +1,4 @@
-import { CartWidget } from "./cartwidget.jsx";
+import { CartWidget } from "./CartWidget.jsx";
 import { Link } from "react-router-dom";
 import "../App.css";
 
