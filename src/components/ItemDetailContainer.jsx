@@ -1,31 +1,44 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { products } from "../data/products";
+import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import ItemDetail from "./ItemDetail";
 
 const ItemDetailContainer = () => {
 const [product, setProduct] = useState(null);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
 const { id } = useParams();
 
 useEffect(() => {
-    const getProduct = new Promise((resolve) => {
-    setTimeout(() => {
-        resolve(products.find((p) => p.id === parseInt(id)));
-    }, 1000);
-    });
-
-    getProduct.then((res) => setProduct(res));
+    async function fetchProduct() {
+        try {
+            setLoading(true);
+            setError("");
+            if (!db) {
+                throw new Error("Firebase no configurado");
+            }
+            const ref = doc(db, "items", id);
+            const snapshot = await getDoc(ref);
+            if (!snapshot.exists()) {
+                setError("Producto no encontrado");
+                setProduct(null);
+                return;
+            }
+            setProduct({ id: snapshot.id, ...snapshot.data() });
+        } catch (err) {
+            setError("No se pudo cargar el producto");
+        } finally {
+            setLoading(false);
+        }
+    }
+    fetchProduct();
 }, [id]);
 
-if (!product) return <h2 style={{ textAlign: "center" }}>Cargando...</h2>;
+if (loading) return <h2 style={{ textAlign: "center" }}>Cargando...</h2>;
+if (error) return <h2 style={{ textAlign: "center" }}>{error}</h2>;
 
-return (
-    <div className="detalle">
-    <img src={product.img} alt={product.name} />
-    <h2>{product.name}</h2>
-    <p>Precio: ${product.price}</p>
-    <p>Categoría: {product.category}</p>
-    </div>
-);
+return <ItemDetail product={product} />;
 };
 
 export default ItemDetailContainer;

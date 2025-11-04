@@ -20,7 +20,10 @@ return (
         <Link to="/category/accesorios">Accesorios</Link>
     </li>
     <li>
-        <Link to="/contacto">Contacto</Link> 
+        <Link to="/cart">Carrito</Link>
+    </li>
+    <li>
+        <Link to="/checkout">Checkout</Link>
     </li>
 </ul>
     <CartWidget />

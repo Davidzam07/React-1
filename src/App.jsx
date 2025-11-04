@@ -2,17 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { NavBar } from "./components/NavBar";
 import  ItemListContainer  from "./components/ItemListContainer";
 import  ItemDetailContainer from "./components/ItemDetailContainer";
-import { getFirestore, getDoc, doc } from "firebase/firestore";
+import Cart from "./components/Cart";
+import CheckoutForm from "./components/CheckoutForm";
 
 function App() {
-  const db = getFirestore();
-  const docRef = doc(db, "items", "kyzGAy95a5w86wh0fdVM");
-  
-  getDoc(docRef).then((snapshot) => {
-    console.log(snapshot);
-   // console.log(snapshot.data(), snapshot.id);
-  });
-
   return (
     <BrowserRouter>
       <NavBar />
@@ -20,6 +13,8 @@ function App() {
         <Route path="/" element={<ItemListContainer greeting="Catálogo de productos" />} />
         <Route path="/category/:categoryId" element={<ItemListContainer />} />     
         <Route path="/item/:id" element={<ItemDetailContainer />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<CheckoutForm />} />
         <Route path="*" element={<h2 style={{ textAlign: "center" }}>404 - Página no encontrada</h2>} />
       </Routes>
     </BrowserRouter>
@@ -27,7 +22,3 @@ function App() {
 }
 
 export default App;
-
-
-
-

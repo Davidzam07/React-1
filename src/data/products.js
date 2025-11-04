@@ -4,3 +4,5 @@ export const products = [
     { id: 3, name: "Buzo Oversize", category: "ropa", price: 22000, img: "/img/buzo.jpg" },
     { id: 4, name: "Gorra Trucker", category: "accesorios", price: 9000, img: "/img/gorra.jpg" }
 ];
+
+
