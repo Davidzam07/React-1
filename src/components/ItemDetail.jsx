@@ -1,25 +1,34 @@
+import { useState } from "react";
 import ItemCount from "./ItemCount";
 import { useCart } from "../context/CartContext";
+import Notification from "./Notification";
 
 const ItemDetail = ({ product }) => {
   const { addItem } = useCart();
-  const stock = typeof product.stock === "number" ? product.stock : Infinity;
+  const [showNotification, setShowNotification] = useState(false);
 
   function handleAdd(quantity) {
     addItem(product, quantity);
+    setShowNotification(true);
   }
-
-  const imgSrc = product?.img
-    ? (product.img.startsWith("http") ? product.img : (product.img.startsWith("/") ? product.img : `/${product.img}`))
-    : "/img/remera.jpg";
 
   return (
     <div className="detalle">
-      <img src={imgSrc} alt={product.name} onError={(e) => { e.currentTarget.src = "/img/remera.jpg"; }} />
-      <h2>{product.name}</h2>
-      <p>Precio: ${product.price}</p>
-      <p>Categoría: {product.category}</p>
-      <ItemCount stock={stock} onAdd={handleAdd} />
+      {showNotification && (
+        <Notification 
+          message="¡Producto agregado al carrito!"
+          onClose={() => setShowNotification(false)}
+        />
+      )}
+      <div className="detalle-imagen">
+        <img src={product.img} alt={product.name} />
+      </div>
+      <div className="detalle-info">
+        <h2>{product.name}</h2>
+        <p>$ {product.price}</p>
+        <p>Categoría: {product.category}</p>
+        <ItemCount stock={product.stock} onAdd={handleAdd} />
+      </div>
     </div>
   );
 };
